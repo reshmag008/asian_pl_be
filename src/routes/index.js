@@ -139,6 +139,16 @@ router.post('/players', bodyParser.json(),(req, res) => {
     .catch((err) => res.status(500).json(err))
 });
 
+router.post('/approve_player', (req, res) => {
+    console.log(req.body)
+    playerService.approvePlayers(req.body)
+        .then((result) => res.status(200).json(result))
+        .catch((err) => res.status(500).json(err))
+}, (error, req, res, next) => {
+    console.log("eror== ", error)
+    res.status(400).send({ error: error.message })
+})
+
 router.post('/validate_league_login', bodyParser.json(),(req, res) => {
     console.log(req.body)
     loginService.validateLeagueOwnerLogin(req.body)

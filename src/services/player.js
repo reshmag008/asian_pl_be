@@ -279,6 +279,20 @@ async function displayTeamScores(){
     })
 }
 
+async function approvePlayers(params) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            console.log("inside update approvePlayers")
+            let resp = await models.players.update({status:2},{where:{id:params.id}});
+            console.log("resp== ", resp);
+            let selectedPlayer = await models.players.findOne({where : {id : params.id}});
+            resolve(selectedPlayer);
+        }catch(e){
+            reject(e)
+        }
+    })
+}
+
 
 
 
@@ -294,5 +308,6 @@ module.exports = {
     teamComplete :teamComplete,
     updateUnSold:updateUnSold,
     closePopup:closePopup,
-    displayTeamScores :displayTeamScores
+    displayTeamScores :displayTeamScores,
+    approvePlayers:approvePlayers
 };
