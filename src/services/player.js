@@ -6,6 +6,7 @@ const teamService = require('./teams');
 const s3Service = require('./s3Service');
 // const {io} = require('../app');
 const {roomId} = require('../config/constants')
+const whatsappService = require('./whatsappService');
 
 
 async function displayPlayer(player){
@@ -286,7 +287,10 @@ async function approvePlayers(params) {
             let resp = await models.players.update({status:2},{where:{id:params.id}});
             console.log("resp== ", resp);
             let selectedPlayer = await models.players.findOne({where : {id : params.id}});
-            resolve(selectedPlayer);
+            console.log("selectedPlayer==before sending whatsapp msg ", selectedPlayer);
+            let wahtsappResponse = await whatsappService.sendWhatsAppWelcomeMessage(selectedPlayer.fullname,selectedPlayer.id,selectedPlayer.whatsapp_no);
+            resolve({players:selectedPlayer, wahtsappResponse:wahtsappResponse})
+            // resolve(selectedPlayer);
         }catch(e){
             reject(e)
         }
