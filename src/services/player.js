@@ -79,7 +79,7 @@ async function getSoldPlayers(){
             let players = await models.players.findAll({
                 where: {
                   bid_amount: {
-                    [Sequelize.Op.not]: null
+                    [Sequelize.Op.not]: 0
                   }
                 },order: [['updatedAt', 'DESC']], limit:10
               });
@@ -142,11 +142,11 @@ async function getPlayers(params){
             let unSoldPlayerCount = await models.players.count({where: {un_sold : true} });
             let soldPlayerCount = await models.players.count({where: {
                 bid_amount: {
-                  [Op.not]: null
+                  [Op.not]: 0
                 }
               }})
             let pendingPlayerCount = await models.players.count({where:{
-                bid_amount : null ,
+                bid_amount : 0 ,
                 un_sold : false
             }})
 
